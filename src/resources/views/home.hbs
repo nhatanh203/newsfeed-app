@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+
+<body>
+    <h1 style="text-align:center">Home Newsfeed</h1>
+    <hr>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID :</th>
+                <th scope="col">Name :</th>
+                <th scope="col">Description :</th>
+                <th scope="col">Edit :</th>
+                <th scope="col">Delete :</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each news}}
+            <tr>
+                <td>
+                    {{ sum @index 1 }}
+                </td>
+                <td>
+                    <a href="/news/{{this.slug}}">
+                        {{this.name}}
+                    </a>
+                </td>
+                <td>
+                    {{this.description}}
+                </td>
+                <td>
+                    <a href="/news/{{this._id}}/edit" class="btn btn-primary">
+                        Edit
+                    </a>
+                </td>
+                <td>
+                    <a href="" class="btn btn-danger" data-toggle="modal" data-target="#delete-news-modal"
+                        data-id="{{this._id}}">Delete</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <!-- Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="delete-news-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Newsfeed</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn-delete-news" type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{!-- hidden form delete --}}
+    <form method="POST" name="delete-news-form"></form>
+</body>
+
+{{#if messageDelete}}
+<script>
+    Swal.fire(
+        'Delete Successfully !',
+        'Data saved',
+        'success'
+    )
+</script>
+{{/if}}
+
+{{#if messageEdit}}
+<script>
+    Swal.fire(
+        'Edit Successfully !',
+        'Data saved',
+        'success'
+    )
+</script>
+{{/if}}
+
+{{#if messageCreate}}
+<script>
+    Swal.fire(
+        'Create Successfully !',
+        'Data saved',
+        'success'
+    )
+</script>
+{{/if}}
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var newsId;
+        var deleteForm = document.forms['delete-news-form']
+        var btnDeleteNews = document.getElementById('btn-delete-news')
+
+        $('#delete-news-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            newsId = button.data('id')
+        })
+
+        btnDeleteNews.onclick = function () {
+            deleteForm.action = '/news/' + newsId + '?_method=DELETE';
+            deleteForm.submit()
+        }
+    })
+</script>
+
+</html>

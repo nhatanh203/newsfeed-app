@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+
+<body>
+    <div class="container">
+        <form method="POST" action="/news/store">
+            <h1>Register</h1>
+            <p>Please fill in this form to create an account.</p>
+            <hr>
+            <div class="form-group">
+                <label for="name"><b>Name</b></label>
+                <input type="text" placeholder="Enter Name" name="name" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="description"><b>Description</b></label>
+                <input type="text" placeholder="Enter Description" name="description" id="description" required>
+            </div>
+            <hr>
+            <button type="submit" class="registerbtn">Create News</button>
+        </form>
+    </div>
+
+</body>
+
+</html>
